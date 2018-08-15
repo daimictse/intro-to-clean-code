@@ -1,0 +1,122 @@
+1. Clean code is code that's with meaningful names and variables, easy to understand without redundancy, and each method has only one and only one task; making it readable and maintainable.
+
+2. I work for an eCommerce that sells sensor products, which relies on IC chips for the different functionalities. The chips are programmed to open a sensor trash can lid when it detects any disruption in the infrared light beam. Then, when after 6 continuous seconds the infrared light is free of disruption, the lid closes. Imagine what will happen if the code was created to close the lid immediately whenever there's a disruption free infrared light beam. In reality, this could be happened very often while someone is throwing out trash. The lid would close on the person.
+
+3. It's not clean code because variable names don't have a meaning, no indentation, and printing z is called multiple times. This is the cleaner version of the code:
+  FUNCTION convertDegree(degree, degreeUnit)
+    IF degreeUnit = "F" THEN
+      SET resultDegree to (degree-32) * (5/9)
+    ELSE IF degreeUnit = "C" THEN
+      SET resultDegree to degree * 1.8000 + 32.00
+    END IF
+    PRINT resultDegree
+  END FUNCTION
+
+4. It's not clean code because regardless what total is, it prints percentage in the end.
+  FUNCTION calcPercent(sum, total)
+   IF NOT(total = 0) THEN
+       SET percentage to sum / total * 100
+       PRINT percentage
+   ELSE
+     PRINT "Sorry, cannot divide by 0"
+   END IF
+  END FUNCTION
+
+5a.
+FUNCTION checkOutCustomer(subTotal, discountRate, paymentType)
+   totalDue = subTotal * discountRate + (subTotal * tax)
+   PRINT "Your total due is: " + totalDue
+
+   IF paymentType = 'CASH' THEN
+       CALL getPayment RETURNING amount
+       PRINT "Change due: " + amount - totalDue
+   ELSE IF paymentType = 'CREDIT CARD' THEN
+       CALL getPayment RETURNING amount
+       PRINT "Your credit card has been charged: " + totalDue
+   END IF
+END FUNCTION
+
+5b.
+FUNCTION checkoutBook(book, guest)
+ IF guest.accountActive AND NOT(guest.hasOverdueBooks) THEN
+    IF guest.outstandingFees = 0 THEN
+       APPEND book to guest.books
+       SET book.status to "Checked Out"
+       PRINT "Your books have been issued."
+    END IF
+ ELSE
+     PRINT "Unable to check out book."
+ END IF
+END FUNCTION
+
+5c.
+CLASS BankAccount
+
+ FUNCTION displayBalance
+    PRINT balance
+ END FUNCTION
+
+ FUNCTION deposit(amount)
+    SET balance to balance + amount
+ END FUNCTION
+
+ FUNCTION withdraw(amount)
+     IF balance > amount THEN
+       SET balance to balance - amount
+     END
+ END FUNCTION
+END CLASS
+
+CLASS Customer
+ FUNCTION creditCardOffer
+     IF NOT(customer.hasCreditCard) THEN
+         CALL offerCreditCard
+     END
+ END FUNCTION
+
+ FUNCTION checkStatus
+     IF NOT(customer.hasCheckingAccount) THEN
+         CALL offerCheckingAccount
+     END
+ END FUNCTION
+END CLASS
+
+6.
+function Square (intArray) {
+  var sum = intArray.reduce(function(previousVal, currentVal) {
+    return previousVal + currentVal;
+  }, 0);
+  var sqrt = Math.sqrt(sum);
+  if (Number.isInteger(sqrt)) {
+    return sqrt;
+  }
+  return sum;
+}
+
+7.
+function isDuplicate (intArray) {
+  var thisArray = intArray;
+  var thisInt = thisArray.pop();
+  while (thisInt) {
+    if (thisInt in thisArray) {
+      return true;
+    }
+    thisInt = thisArray.pop();
+  }
+  return false;
+}
+
+8.
+function isAnagram (str1, str2) {
+  if (str1.length != str2.length) {
+    return false;
+  }
+  var str1Array = str1.split("");
+  var str2Array = str2.split("");
+  for (var str1Index=0, str2Index=str2.length-1; str1Index<str1.length; str1Index++, str2Index--) {
+    if (str1Array[str1Index] != str2Array[str2Index]) {
+      return false;
+    }
+  }
+  return true;
+}
